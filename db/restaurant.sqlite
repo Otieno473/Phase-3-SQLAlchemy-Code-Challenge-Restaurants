@@ -1,0 +1,39 @@
+import random
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+import ipdb;
+from lib.models import Custumers, Reviews, Restaurants
+
+
+if __name__ == '__main__':
+
+    engine = create_engine('sqlite:///db/Restaurants.sqlite')
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    new_customer = Customer(name="Imagine Dragons", hometown="Las Vegas, Nevada")
+    session.add(new_customer)
+    session.commit()
+
+    new_review = Review(title="Allegiant Stadium", city="Las Vegas")
+    session.add(new_review)
+    session.commit()
+
+    new_restaurant = Restaurant(date="2024-02-11", name="Super Bowl LVIII", Customer_id=new_customer.id, Review_id=new_review.id)
+    session.add(new_restaurant)
+    session.commit()
+
+    Customers = session.query(Customer).all()
+    Reviews = session.query(Review).all()
+    Restaurants = session.query(Restaurant).all()
+
+    for Customer in Customers:
+        print(Customer.name)
+
+    for Review in Reviews:
+        print(Review.title)
+
+    for Restaurant in Restaurants:
+        print(Restaurant.name)
+
+    ipdb.set_trace()
